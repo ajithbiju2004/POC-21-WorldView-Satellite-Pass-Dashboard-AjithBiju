@@ -2,10 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { getSatellites } from "@/lib/api";
-const [selectedSatellite, setSelectedSatellite] = useState<any>(null);
+import dynamic from "next/dynamic";
+
+const SatelliteMap = dynamic(
+  () => import("@/components/map/SatelliteMap"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
 
+  const [selectedSatellite, setSelectedSatellite] = useState<any>(null);
   const [satellites, setSatellites] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -90,7 +98,84 @@ export default function Home() {
 
           </div>
 
+
+          {/* Why This Matters */}
+          <div className="p-4 bg-[#030712] border border-[#1F2937] rounded-lg">
+
+            <h2 className="text-sm text-[#38BDF8] font-semibold mb-2">
+              WHY THIS MATTERS
+            </h2>
+
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Satellite intelligence enables infrastructure monitoring,
+              disaster response, environmental surveillance, and
+              strategic regional observation in near real-time.
+            </p>
+
+          </div>
+
+          {/* Control Rail */}
+          <div className="p-4 bg-[#030712] border border-[#1F2937] rounded-lg">
+
+            <h2 className="text-sm text-[#38BDF8] font-semibold mb-2">
+              CONTROL RAIL
+            </h2>
+
+            <div className="space-y-2 text-sm text-gray-400">
+
+              <p>
+                Operator: Maxar Intelligence
+              </p>
+
+              <p>
+                Orbit Class: Low Earth Orbit
+              </p>
+
+              <p>
+                Priority: Strategic Monitoring
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* Filters */}
+          <div className="p-4 bg-[#030712] border border-[#1F2937] rounded-lg">
+
+            <h2 className="text-sm text-[#38BDF8] font-semibold mb-3">
+              FILTERS
+            </h2>
+
+            <div className="space-y-3">
+
+              <select className="w-full bg-[#0B1117] border border-[#1F2937] rounded-md p-2 text-sm text-gray-300">
+                <option>All Regions</option>
+                <option>South Asia</option>
+                <option>Europe</option>
+                <option>North America</option>
+              </select>
+
+              <select className="w-full bg-[#0B1117] border border-[#1F2937] rounded-md p-2 text-sm text-gray-300">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Standby</option>
+                <option>Maintenance</option>
+              </select>
+
+            </div>
+
+          </div>
+
+          {/* Download Button */}
+          <button className="w-full bg-[#38BDF8] hover:bg-[#0ea5e9] text-black font-semibold py-2 rounded-lg transition-all duration-200">
+
+            Download Intelligence Report
+
+          </button>
+
         </div>
+
+        
       </div>
 
       {/* Main Panel (70%) */}
@@ -100,22 +185,51 @@ export default function Home() {
         <div className="grid grid-cols-3 gap-4 mb-4">
 
           <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg">
-            Metric 1
+
+            <p className="text-sm text-gray-400">
+              ACTIVE REGIONS
+            </p>
+
+            <h2 className="text-2xl font-bold text-[#38BDF8]">
+              12
+            </h2>
+
           </div>
 
           <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg">
-            Metric 2
+
+            <p className="text-sm text-gray-400">
+              COVERAGE STATUS
+            </p>
+
+            <h2 className="text-2xl font-bold text-green-400">
+              Stable
+            </h2>
+
           </div>
 
           <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg">
-            Metric 3
+
+            <p className="text-sm text-gray-400">
+              AVG REVISIT
+            </p>
+
+            <h2 className="text-2xl font-bold text-orange-400">
+              4 hrs
+            </h2>
+
           </div>
+
+
 
         </div>
 
         {/* Map Placeholder (we add Leaflet later) */}
-        <div className="h-[80%] bg-[#0B1117] border border-[#1F2937] rounded-lg flex items-center justify-center">
-          Map Area (Coming Next)
+        <div className="h-[80%] bg-[#0B1117] border border-[#1F2937] rounded-lg overflow-hidden">
+          <SatelliteMap
+            satellites={satellites}
+            setSelectedSatellite={setSelectedSatellite}
+          />
         </div>
 
       </div>
