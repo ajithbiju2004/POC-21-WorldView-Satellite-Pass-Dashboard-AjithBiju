@@ -152,6 +152,18 @@ export default function Home() {
                     Status: {selectedSatellite.status}
                   </p>
 
+                  <p className="text-sm text-gray-400">
+                    Orbit: {selectedSatellite.orbit}
+                  </p>
+
+                  <p className="text-sm text-gray-400">
+                    Altitude: {selectedSatellite.altitude}
+                  </p>
+
+                  <p className="text-sm text-gray-400">
+                    Agency: {selectedSatellite.agency}
+                  </p>
+
                 </div>
 
                 <p className="text-sm text-gray-400">
@@ -243,6 +255,39 @@ export default function Home() {
 
           </div>
 
+
+          <div className="p-4 bg-[#030712] border border-[#1F2937] rounded-lg">
+
+            <h2 className="text-sm text-[#38BDF8] font-semibold mb-3">
+              LIVE TELEMETRY
+            </h2>
+
+            <div className="space-y-2 text-sm text-gray-400">
+
+              <div className="flex justify-between">
+                <span>Signal Strength</span>
+                <span className="text-green-400">98%</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span>Tracking Stability</span>
+                <span className="text-[#38BDF8]">Nominal</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span>Ground Lock</span>
+                <span className="text-green-400">Confirmed</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span>Data Relay</span>
+                <span className="text-orange-400">Live</span>
+              </div>
+
+            </div>
+
+          </div>
+
           {/* Download Button */}
           <button
             onClick={exportReport}
@@ -271,7 +316,7 @@ export default function Home() {
             </p>
 
             <h2 className="text-2xl font-bold text-[#38BDF8]">
-              12
+              {filteredSatellites.length}
             </h2>
 
           </div>
@@ -279,11 +324,19 @@ export default function Home() {
           <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg shadow-[0_0_20px_rgba(56,189,248,0.08)] hover:shadow-[0_0_25px_rgba(56,189,248,0.18)] transition-all duration-300">
 
             <p className="text-sm text-gray-400">
-              COVERAGE STATUS
+              {
+                filteredSatellites.filter(
+                  (sat) => sat.status === "Active"
+                ).length
+              }
             </p>
 
             <h2 className="text-2xl font-bold text-green-400">
-              Stable
+              {
+                filteredSatellites.length > 0
+                  ? filteredSatellites[0].revisit_time
+                  : "N/A"
+              }
             </h2>
 
           </div>
