@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "WorldView-3",
+    "lat": 12.97,
+    "lng": 77.59,
+    "coverage": "South Asia",
+    "status": "Active",
+    "revisit_time": "4 hours",
+    "operator": "Maxar Technologies"
+  },
+  {
+    "id": 2,
+    "name": "Sentinel-2A",
+    "lat": 48.85,
+    "lng": 2.35,
+    "coverage": "Europe",
+    "status": "Active",
+    "revisit_time": "5 days",
+    "operator": "ESA"
+  },
+  {
+    "id": 3,
+    "name": "Landsat-9",
+    "lat": 40.71,
+    "lng": -74.00,
+    "coverage": "North America",
+    "status": "Monitoring",
+    "revisit_time": "8 days",
+    "operator": "NASA"
+  }
+]
