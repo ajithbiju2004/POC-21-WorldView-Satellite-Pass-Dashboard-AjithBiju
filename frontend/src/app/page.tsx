@@ -25,6 +25,32 @@ export default function Home() {
 
   const [loading, setLoading] = useState(true);
 
+  const exportReport = () => {
+
+    const reportData = {
+      generated_at: new Date().toISOString(),
+      total_satellites: filteredSatellites.length,
+      satellites: filteredSatellites,
+    };
+
+    const blob = new Blob(
+      [JSON.stringify(reportData, null, 2)],
+      { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    link.download = "satellite-report.json";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   useEffect(() => {
     async function loadSatellites() {
       try {
@@ -212,7 +238,10 @@ export default function Home() {
           </div>
 
           {/* Download Button */}
-          <button className="w-full bg-[#38BDF8] hover:bg-[#0ea5e9] text-black font-semibold py-2 rounded-lg transition-all duration-200">
+          <button
+            onClick={exportReport}
+            className="w-full bg-[#38BDF8] hover:bg-[#0ea5e9] text-black font-semibold py-2 rounded-lg transition-all duration-200"
+          >
 
             Download Intelligence Report
 
