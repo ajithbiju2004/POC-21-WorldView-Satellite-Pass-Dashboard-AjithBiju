@@ -14,7 +14,15 @@ const SatelliteMap = dynamic(
 export default function Home() {
 
   const [selectedSatellite, setSelectedSatellite] = useState<any>(null);
+
   const [satellites, setSatellites] = useState<any[]>([]);
+
+  const [filteredSatellites, setFilteredSatellites] = useState<any[]>([]);
+
+  const [regionFilter, setRegionFilter] = useState("All Regions");
+
+  const [statusFilter, setStatusFilter] = useState("All Status");
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +30,7 @@ export default function Home() {
       try {
         const data = await getSatellites();
         setSatellites(data);
+        setFilteredSatellites(data);
         if (data.length > 0) {
           setSelectedSatellite(data[0]);
         }
@@ -34,6 +43,34 @@ export default function Home() {
 
     loadSatellites();
   }, []);
+  useEffect(() => {
+
+    let filtered = satellites;
+
+    // Region Filter
+    if (regionFilter !== "All Regions") {
+      filtered = filtered.filter(
+        (sat) => sat.coverage === regionFilter
+      );
+    }
+
+    // Status Filter
+    if (statusFilter !== "All Status") {
+      filtered = filtered.filter(
+        (sat) => sat.status === statusFilter
+      );
+    }
+
+    setFilteredSatellites(filtered);
+
+    // Auto-select first filtered satellite
+    if (filtered.length > 0) {
+      setSelectedSatellite(filtered[0]);
+    } else {
+      setSelectedSatellite(null);
+    }
+
+  }, [regionFilter, statusFilter, satellites]);
 
 
   if (loading) {
@@ -148,14 +185,22 @@ export default function Home() {
 
             <div className="space-y-3">
 
-              <select className="w-full bg-[#0B1117] border border-[#1F2937] rounded-md p-2 text-sm text-gray-300">
+              <select
+                value={regionFilter}
+                onChange={(e) => setRegionFilter(e.target.value)}
+                className="w-full bg-[#0B1117] border border-[#1F2937] rounded-md p-2 text-sm text-gray-300"
+              >
                 <option>All Regions</option>
                 <option>South Asia</option>
                 <option>Europe</option>
                 <option>North America</option>
               </select>
 
-              <select className="w-full bg-[#0B1117] border border-[#1F2937] rounded-md p-2 text-sm text-gray-300">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="w-full bg-[#0B1117] border border-[#1F2937] rounded-md p-2 text-sm text-gray-300"
+              >
                 <option>All Status</option>
                 <option>Active</option>
                 <option>Standby</option>
@@ -227,7 +272,7 @@ export default function Home() {
         {/* Map Placeholder (we add Leaflet later) */}
         <div className="h-[80%] bg-[#0B1117] border border-[#1F2937] rounded-lg overflow-hidden">
           <SatelliteMap
-            satellites={satellites}
+            satellites={filteredSatellites}
             setSelectedSatellite={setSelectedSatellite}
           />
         </div>
