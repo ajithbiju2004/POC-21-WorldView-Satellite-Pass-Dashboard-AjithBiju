@@ -144,9 +144,15 @@ export default function Home() {
                   Coverage: {selectedSatellite.coverage}
                 </p>
 
-                <p className="text-sm text-gray-400">
-                  Status: {selectedSatellite.status}
-                </p>
+                <div className="flex items-center gap-2">
+
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+
+                  <p className="text-sm text-gray-400">
+                    Status: {selectedSatellite.status}
+                  </p>
+
+                </div>
 
                 <p className="text-sm text-gray-400">
                   Revisit: {selectedSatellite.revisit_time}
@@ -258,7 +264,7 @@ export default function Home() {
         {/* Top Metrics */}
         <div className="grid grid-cols-3 gap-4 mb-4">
 
-          <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg">
+          <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg shadow-[0_0_20px_rgba(56,189,248,0.08)] hover:shadow-[0_0_25px_rgba(56,189,248,0.18)] transition-all duration-300">
 
             <p className="text-sm text-gray-400">
               ACTIVE REGIONS
@@ -270,7 +276,7 @@ export default function Home() {
 
           </div>
 
-          <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg">
+          <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg shadow-[0_0_20px_rgba(56,189,248,0.08)] hover:shadow-[0_0_25px_rgba(56,189,248,0.18)] transition-all duration-300">
 
             <p className="text-sm text-gray-400">
               COVERAGE STATUS
@@ -282,7 +288,7 @@ export default function Home() {
 
           </div>
 
-          <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg">
+          <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg shadow-[0_0_20px_rgba(56,189,248,0.08)] hover:shadow-[0_0_25px_rgba(56,189,248,0.18)] transition-all duration-300">
 
             <p className="text-sm text-gray-400">
               AVG REVISIT
@@ -299,11 +305,41 @@ export default function Home() {
         </div>
 
         {/* Map Placeholder (we add Leaflet later) */}
-        <div className="h-[80%] bg-[#0B1117] border border-[#1F2937] rounded-lg overflow-hidden">
+        <div className="relative h-[80%] bg-[#0B1117] border border-[#1F2937] rounded-lg overflow-hidden">
+
           <SatelliteMap
             satellites={filteredSatellites}
             setSelectedSatellite={setSelectedSatellite}
           />
+
+          {/* Tactical Legend */}
+          <div className="absolute bottom-4 left-4 bg-[#030712]/90 border border-[#1F2937] rounded-lg p-3 text-xs text-gray-300 z-[1000]">
+
+            <h2 className="text-[#38BDF8] font-semibold mb-2">
+              OPERATIONAL LEGEND
+            </h2>
+
+            <div className="space-y-1">
+
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <span>Active Surveillance</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                <span>Standby Systems</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                <span>Maintenance Window</span>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
       </div>

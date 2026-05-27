@@ -51,16 +51,16 @@ export default function SatelliteMap({
           }}
         >
           <Popup>
-            <div className="text-black">
-              <h2 className="font-bold">
+            <div className="bg-[#030712] text-white p-2 rounded-md min-w-[180px]">
+              <h2 className="font-bold text-[#38BDF8]">
                 {satellite.name}
               </h2>
 
-              <p>
+              <p className="text-sm text-gray-300">
                 {satellite.coverage}
               </p>
 
-              <p>
+              <p className="text-sm text-gray-300">
                 {satellite.status}
               </p>
             </div>
