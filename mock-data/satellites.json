@@ -7,26 +7,116 @@
     "coverage": "South Asia",
     "status": "Active",
     "revisit_time": "4 hours",
-    "operator": "Maxar Technologies"
+    "orbit": "LEO",
+    "altitude": "617 km",
+    "agency": "Maxar"
   },
   {
     "id": 2,
-    "name": "Sentinel-2A",
-    "lat": 48.85,
-    "lng": 2.35,
-    "coverage": "Europe",
-    "status": "Active",
-    "revisit_time": "5 days",
-    "operator": "ESA"
-  },
-  {
-    "id": 3,
-    "name": "Landsat-9",
+    "name": "GeoEye-1",
     "lat": 40.71,
     "lng": -74.00,
     "coverage": "North America",
-    "status": "Monitoring",
-    "revisit_time": "8 days",
-    "operator": "NASA"
+    "status": "Active",
+    "revisit_time": "6 hours",
+    "orbit": "LEO",
+    "altitude": "681 km",
+    "agency": "Maxar"
+  },
+  {
+    "id": 3,
+    "name": "WorldView-2",
+    "lat": 51.50,
+    "lng": -0.12,
+    "coverage": "Europe",
+    "status": "Standby",
+    "revisit_time": "8 hours",
+    "orbit": "LEO",
+    "altitude": "770 km",
+    "agency": "Maxar"
+  },
+  {
+    "id": 4,
+    "name": "QuickBird",
+    "lat": 35.68,
+    "lng": 139.69,
+    "coverage": "East Asia",
+    "status": "Active",
+    "revisit_time": "5 hours",
+    "orbit": "LEO",
+    "altitude": "450 km",
+    "agency": "DigitalGlobe"
+  },
+  {
+    "id": 5,
+    "name": "GeoEye-2",
+    "lat": -33.86,
+    "lng": 151.20,
+    "coverage": "Australia",
+    "status": "Maintenance",
+    "revisit_time": "12 hours",
+    "orbit": "LEO",
+    "altitude": "690 km",
+    "agency": "GeoEye"
+  },
+  {
+    "id": 6,
+    "name": "Sentinel-X",
+    "lat": 28.61,
+    "lng": 77.20,
+    "coverage": "South Asia",
+    "status": "Active",
+    "revisit_time": "3 hours",
+    "orbit": "LEO",
+    "altitude": "720 km",
+    "agency": "ESA"
+  },
+  {
+    "id": 7,
+    "name": "OrbitalScan-7",
+    "lat": 55.75,
+    "lng": 37.61,
+    "coverage": "Europe",
+    "status": "Standby",
+    "revisit_time": "9 hours",
+    "orbit": "MEO",
+    "altitude": "2000 km",
+    "agency": "Roscosmos"
+  },
+  {
+    "id": 8,
+    "name": "SkyWatch-A1",
+    "lat": -23.55,
+    "lng": -46.63,
+    "coverage": "South America",
+    "status": "Active",
+    "revisit_time": "7 hours",
+    "orbit": "LEO",
+    "altitude": "590 km",
+    "agency": "SkyWatch"
+  },
+  {
+    "id": 9,
+    "name": "PolarVision",
+    "lat": 64.13,
+    "lng": -21.90,
+    "coverage": "Arctic",
+    "status": "Maintenance",
+    "revisit_time": "15 hours",
+    "orbit": "Polar",
+    "altitude": "850 km",
+    "agency": "ESA"
+  },
+  {
+    "id": 10,
+    "name": "TerraLens",
+    "lat": 1.35,
+    "lng": 103.82,
+    "coverage": "Southeast Asia",
+    "status": "Active",
+    "revisit_time": "2 hours",
+    "orbit": "LEO",
+    "altitude": "540 km",
+    "agency": "Maxar"
   }
 ]

@@ -10,6 +10,10 @@ import {
 import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
+import "leaflet.heat";
+import { useRef, useEffect } from "react";
+import { useMap } from "react-leaflet";
+
 
 interface SatelliteMapProps {
   satellites: any[];
@@ -24,16 +28,61 @@ const markerIcon = new L.Icon({
   iconAnchor: [12, 41],
 });
 
+function HeatLayer({ satellites }: { satellites: any[] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+
+    const heatPoints = satellites.map((satellite) => [
+      satellite.lat,
+      satellite.lng,
+      satellite.status === "Active"
+        ? 1.0
+        : satellite.status === "Standby"
+        ? 0.6
+        : 0.2
+    ]);
+
+    const heatLayer = (L as any).heatLayer(heatPoints, {
+        radius: 90,
+        blur: 55,
+        maxZoom: 6,
+        minOpacity: 0.4,
+        gradient: {
+            0.1: "#0011ff",
+            0.3: "#00ffff",
+            0.5: "#00ff44",
+            0.7: "#ffcc00",
+            1.0: "#ff0000",
+        },
+    });
+
+    heatLayer.addTo(map);
+
+    return () => {
+      map.removeLayer(heatLayer);
+    };
+  }, [map, satellites]);
+
+  return null;
+}
+
 export default function SatelliteMap({
   satellites,
   setSelectedSatellite,
 }: SatelliteMapProps) {
+
+
   return (
     <MapContainer
-      center={[20, 0]}
-      zoom={2}
-      className="h-full w-full"
+        center={[20, 0]}
+        zoom={2}
+        className="h-full w-full"
     >
+
+        <HeatLayer satellites={satellites} />
+
         <TileLayer
             attribution='&copy; CARTO'
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
