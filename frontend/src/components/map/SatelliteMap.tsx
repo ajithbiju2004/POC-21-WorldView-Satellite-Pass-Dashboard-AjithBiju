@@ -5,13 +5,14 @@ import {
   TileLayer,
   Marker,
   Popup,
+  Circle,
 } from "react-leaflet";
 
 import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
-import { useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
 
 
@@ -34,14 +35,10 @@ function HeatLayer({ satellites }: { satellites: any[] }) {
   useEffect(() => {
     if (!map) return;
 
-    const heatPoints = satellites.map((satellite) => [
+    const heatPoints = satellites.map((satellite, index) => [
       satellite.lat,
       satellite.lng,
-      satellite.status === "Active"
-        ? 1.0
-        : satellite.status === "Standby"
-        ? 0.6
-        : 0.2
+      0.5 + ((index % 5) * 0.1)
     ]);
 
     const heatLayer = (L as any).heatLayer(heatPoints, {
@@ -73,6 +70,57 @@ export default function SatelliteMap({
   setSelectedSatellite,
 }: SatelliteMapProps) {
 
+    const [simTime, setSimTime] = useState(0);
+    const [animatedSatellites, setAnimatedSatellites] =
+    useState(satellites);
+    useEffect(() => {
+        setAnimatedSatellites(satellites);
+    }, [satellites]);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSimTime((t) => (t + 1) % 24);
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+    const interval = setInterval(() => {
+        setAnimatedSatellites((prev) =>
+        prev.map((sat, index) => ({
+            ...sat,
+
+            lat:
+            sat.lat +
+            Math.sin((simTime + index) * 0.3) * 0.08,
+
+            lng:
+            sat.lng +
+            Math.cos((simTime + index) * 0.3) * 0.08,
+        }))
+        );
+    }, 4000);
+
+    return () => clearInterval(interval);
+    }, [simTime]);
+
+    const isInPassWindow = (index: number) => {
+    const start = (index * 3) % 24;
+    const end = start + 6;
+
+    return simTime >= start && simTime <= end;
+    };
+
+    const getPassWindow = (index: number) => {
+        const start = (index * 3) % 24;
+        const end = (start + 6) % 24;
+
+        return {
+            start,
+            end,
+        };
+    };
+
 
   return (
     <MapContainer
@@ -88,7 +136,22 @@ export default function SatelliteMap({
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
 
-      {satellites.map((satellite, index) => (
+        {animatedSatellites.map((satellite, index) =>
+            isInPassWindow(index) ? (
+                <Circle
+                key={`circle-${index}`}
+                center={[satellite.lat, satellite.lng]}
+                radius={600000}
+                pathOptions={{
+                    color: "#38BDF8",
+                    fillColor: "#38BDF8",
+                    fillOpacity: 0.08,
+                }}
+                />
+            ) : null
+        )}
+
+      {animatedSatellites.map((satellite, index) => (
         <Marker
           key={index}
           position={[satellite.lat, satellite.lng]}
@@ -109,8 +172,22 @@ export default function SatelliteMap({
                 {satellite.coverage}
               </p>
 
+              <p className="text-sm text-cyan-300">
+                Sim Time: {simTime}:00 UTC
+              </p>
+
+              <p className="text-xs text-green-300">
+                Pass Start: {getPassWindow(index).start}:00 UTC
+              </p>
+
+              <p className="text-xs text-orange-300">
+                Pass End: {getPassWindow(index).end}:00 UTC
+              </p>
+
               <p className="text-sm text-gray-300">
-                {satellite.status}
+                {isInPassWindow(index)
+                    ? "IN PASS WINDOW"
+                    : "AWAITING PASS"}
               </p>
             </div>
           </Popup>

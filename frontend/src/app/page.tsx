@@ -25,6 +25,25 @@ export default function Home() {
 
   const [loading, setLoading] = useState(true);
 
+  const [simTime, setSimTime] = useState(0);
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setSimTime((t) => (t + 1) % 24);
+      }, 2000);
+
+      return () => clearInterval(interval);
+    }, []);
+
+  const activePasses = filteredSatellites.filter(
+    (_, index) => {
+      const start = (index * 3) % 24;
+      const end = start + 4;
+
+      return simTime >= start && simTime <= end;
+    }
+  ).length;
+
   const exportReport = () => {
 
     const reportData = {
@@ -149,7 +168,20 @@ export default function Home() {
                   <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
 
                   <p className="text-sm text-gray-400">
-                    Status: {selectedSatellite.status}
+                    Status: {
+                      (() => {
+                        const index = filteredSatellites.findIndex(
+                          (sat) => sat.id === selectedSatellite.id
+                        );
+
+                        const start = (index * 3) % 24;
+                        const end = start + 6;
+
+                        return simTime >= start && simTime <= end
+                          ? "ACTIVE OBSERVATION"
+                          : "STANDBY ORBIT";
+                      })()
+                    }
                   </p>
 
                   <p className="text-sm text-gray-400">
@@ -324,19 +356,11 @@ export default function Home() {
           <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg shadow-[0_0_20px_rgba(56,189,248,0.08)] hover:shadow-[0_0_25px_rgba(56,189,248,0.18)] transition-all duration-300">
 
             <p className="text-sm text-gray-400">
-              {
-                filteredSatellites.filter(
-                  (sat) => sat.status === "Active"
-                ).length
-              }
+              ACTIVE PASSES
             </p>
 
             <h2 className="text-2xl font-bold text-green-400">
-              {
-                filteredSatellites.length > 0
-                  ? filteredSatellites[0].revisit_time
-                  : "N/A"
-              }
+              {activePasses}
             </h2>
 
           </div>
@@ -344,11 +368,11 @@ export default function Home() {
           <div className="bg-[#0B1117] border border-[#1F2937] p-4 rounded-lg shadow-[0_0_20px_rgba(56,189,248,0.08)] hover:shadow-[0_0_25px_rgba(56,189,248,0.18)] transition-all duration-300">
 
             <p className="text-sm text-gray-400">
-              AVG REVISIT
+              SIMULATION CLOCK
             </p>
 
             <h2 className="text-2xl font-bold text-orange-400">
-              4 hrs
+              {simTime}:00 UTC
             </h2>
 
           </div>
