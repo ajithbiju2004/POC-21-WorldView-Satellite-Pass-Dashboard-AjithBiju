@@ -146,6 +146,10 @@ export default function Home() {
           WorldView Intelligence Console
         </h1>
 
+        <div className="text-xs text-cyan-400">
+          Engine Status: Synthetic Simulation Rail Enabled
+        </div>
+
         {/* Active Metrics */}
         <div className="space-y-4">
 
