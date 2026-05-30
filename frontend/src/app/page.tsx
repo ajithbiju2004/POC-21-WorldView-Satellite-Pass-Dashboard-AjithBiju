@@ -320,6 +320,36 @@ export default function Home() {
 
           </div>
 
+          <div className="p-4 bg-[#030712] border border-[#1F2937] rounded-lg">
+
+            <h2 className="text-sm text-[#38BDF8] font-semibold mb-2">
+              WHY THIS MATTERS
+            </h2>
+
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Satellite observation infrastructure enables
+              real-time environmental monitoring, strategic
+              intelligence gathering, disaster response,
+              and global logistics visibility.
+            </p>
+
+          </div>
+
+          <div className="p-4 bg-[#030712] border border-[#1F2937] rounded-lg">
+
+            <h2 className="text-sm text-[#38BDF8] font-semibold mb-2">
+              WHO CONTROLS THE RAIL
+            </h2>
+
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Earth observation systems are primarily operated
+              by aerospace agencies, defense organizations,
+              and private satellite intelligence providers
+              including ESA, Maxar, and national space programs.
+            </p>
+
+          </div>
+
           {/* Download Button */}
           <button
             onClick={exportReport}

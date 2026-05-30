@@ -42,7 +42,7 @@ function HeatLayer({ satellites }: { satellites: any[] }) {
     ]);
 
     const heatLayer = (L as any).heatLayer(heatPoints, {
-        radius: 90,
+        radius: 75,
         blur: 55,
         maxZoom: 6,
         minOpacity: 0.4,
@@ -92,11 +92,11 @@ export default function SatelliteMap({
 
             lat:
             sat.lat +
-            Math.sin((simTime + index) * 0.3) * 0.08,
+            Math.sin((simTime + index) * 0.3) * 0.03,
 
             lng:
             sat.lng +
-            Math.cos((simTime + index) * 0.3) * 0.08,
+            Math.cos((simTime + index) * 0.3) * 0.03,
         }))
         );
     }, 4000);
@@ -126,16 +126,24 @@ export default function SatelliteMap({
     <MapContainer
         center={[20, 0]}
         zoom={2}
+        minZoom={2}
+        maxBounds={[
+            [-90, -180],
+            [90, 180],
+        ]}
+        maxBoundsViscosity={1.0}
+        worldCopyJump={false}
         className="h-full w-full"
     >
 
-        <HeatLayer satellites={satellites} />
+        <HeatLayer satellites={animatedSatellites} />
 
         <TileLayer
             attribution='&copy; CARTO'
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
 
+        
         {animatedSatellites.map((satellite, index) =>
             isInPassWindow(index) ? (
                 <Circle
@@ -150,6 +158,7 @@ export default function SatelliteMap({
                 />
             ) : null
         )}
+        
 
       {animatedSatellites.map((satellite, index) => (
         <Marker
