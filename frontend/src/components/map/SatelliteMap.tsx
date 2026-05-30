@@ -21,13 +21,48 @@ interface SatelliteMapProps {
   setSelectedSatellite: (satellite: any) => void;
 }
 
-const markerIcon = new L.Icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+const activeIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
   shadowUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
+
+const standbyIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png",
+  shadowUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+
+const maintenanceIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  shadowUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+
+function getMarkerIcon(status: string) {
+  switch (status) {
+    case "Active":
+      return activeIcon;
+
+    case "Standby":
+      return standbyIcon;
+
+    case "Maintenance":
+      return maintenanceIcon;
+
+    default:
+      return activeIcon;
+  }
+}
 
 function HeatLayer({ satellites }: { satellites: any[] }) {
   const map = useMap();
@@ -164,7 +199,7 @@ export default function SatelliteMap({
         <Marker
           key={index}
           position={[satellite.lat, satellite.lng]}
-          icon={markerIcon}
+          icon={getMarkerIcon(satellite.status)}
           eventHandlers={{
             click: () => {
               setSelectedSatellite(satellite);

@@ -23,6 +23,8 @@ export default function Home() {
 
   const [statusFilter, setStatusFilter] = useState("All Status");
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [loading, setLoading] = useState(true);
 
   const [simTime, setSimTime] = useState(0);
@@ -106,6 +108,15 @@ export default function Home() {
       );
     }
 
+    // Search Filter
+    if (searchTerm !== "") {
+      filtered = filtered.filter((sat) =>
+        sat.name.toLowerCase().includes(
+          searchTerm.toLowerCase()
+        )
+      );
+    }
+
     setFilteredSatellites(filtered);
 
     // Auto-select first filtered satellite
@@ -115,7 +126,7 @@ export default function Home() {
       setSelectedSatellite(null);
     }
 
-  }, [regionFilter, statusFilter, satellites]);
+  }, [regionFilter, statusFilter, searchTerm, satellites]);
 
 
   if (loading) {
@@ -202,6 +213,30 @@ export default function Home() {
                   Revisit: {selectedSatellite.revisit_time}
                 </p>
 
+                <p className="text-sm">
+                  Pass Status:
+                  <span
+                    className={`ml-2 ${
+                      selectedSatellite.pass_status === "In Window"
+                        ? "text-green-400"
+                        : selectedSatellite.pass_status === "Maintenance"
+                        ? "text-red-400"
+                        : "text-yellow-400"
+                    }`}
+                  >
+                    {selectedSatellite.pass_status}
+                  </span>
+                </p>
+
+                <p className="text-sm text-gray-400">
+                  Next Pass: {selectedSatellite.next_pass}
+                </p>
+
+
+                <p className="text-sm text-gray-400">
+                  Next Pass: {selectedSatellite.next_pass}
+                </p>
+
               </div>
             ) : (
               <p className="text-gray-500">
@@ -260,6 +295,14 @@ export default function Home() {
             </h2>
 
             <div className="space-y-3">
+
+              <input
+                type="text"
+                placeholder="Search satellite..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-[#0B1117] border border-[#1F2937] rounded-md p-2 text-sm text-gray-300"
+              />
 
               <select
                 value={regionFilter}
@@ -349,7 +392,6 @@ export default function Home() {
             </p>
 
           </div>
-
           {/* Download Button */}
           <button
             onClick={exportReport}
