@@ -345,22 +345,30 @@ export default function Home() {
 
               <div className="flex justify-between">
                 <span>Signal Strength</span>
-                <span className="text-green-400">98%</span>
+                <span className="text-green-400">
+                  {selectedSatellite.signal_strength}%
+                </span>
               </div>
 
               <div className="flex justify-between">
                 <span>Tracking Stability</span>
-                <span className="text-[#38BDF8]">Nominal</span>
+                <span className="text-[#38BDF8]">
+                  {selectedSatellite.tracking_stability}
+                </span>
               </div>
 
               <div className="flex justify-between">
                 <span>Ground Lock</span>
-                <span className="text-green-400">Confirmed</span>
+                <span className="text-green-400">
+                  {selectedSatellite.ground_lock}
+                </span>
               </div>
 
               <div className="flex justify-between">
                 <span>Data Relay</span>
-                <span className="text-orange-400">Live</span>
+                <span className="text-orange-400">
+                  {selectedSatellite.data_relay}
+                </span>
               </div>
 
             </div>
